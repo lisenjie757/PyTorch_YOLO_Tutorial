@@ -133,7 +133,7 @@ class YOLOv2(nn.Module):
 
         # 解算边界框, 并归一化边界框: [H*W*A, 4]
         bboxes = self.decode_boxes(anchors, reg_pred)
-
+        '''
         # to cpu & numpy
         scores = scores.cpu().numpy()
         labels = labels.cpu().numpy()
@@ -142,7 +142,7 @@ class YOLOv2(nn.Module):
         # nms
         scores, labels, bboxes = multiclass_nms(
             scores, labels, bboxes, self.nms_thresh, self.num_classes, False)
-
+        '''
         return bboxes, scores, labels
 
 

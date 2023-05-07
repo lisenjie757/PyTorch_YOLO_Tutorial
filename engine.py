@@ -94,7 +94,7 @@ def train_one_epoch(epoch,
         # multi scale
         if args.multi_scale:
             images, targets, img_size = rescale_image_targets(
-                images, targets, model.stride, args.min_box_size, cfg['multi_scale'])
+                images, targets, model.module.stride, args.min_box_size, cfg['multi_scale'])
             
         # inference
         with torch.cuda.amp.autocast(enabled=args.fp16):

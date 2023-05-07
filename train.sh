@@ -1,9 +1,9 @@
 # Train YOLO
 python train.py \
         --cuda \
-        -d coco \
-        --root /mnt/share/ssd2/dataset/ \
-        -m yolov3_t \
+        -d voc \
+        --root ../data/ \
+        -m yolov2 \
         -bs 16 \
         -size 640 \
         --wp_epoch 1 \

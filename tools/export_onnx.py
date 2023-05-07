@@ -7,14 +7,14 @@ import argparse
 import os
 from loguru import logger
 import sys
-sys.path.append('..')
+sys.path.append(os.getcwd())
 
 import torch
 from torch import nn
 
 from utils.misc import SiLU
 from utils.misc import load_weight, replace_module
-from config import build_config
+from config import build_model_config
 from models.detectors import build_model
 
 
@@ -48,6 +48,8 @@ def make_parser():
                         help='Dir to save onnx file')
 
     # model
+    parser.add_argument('-m', '--model', default='yolov2', type=str,
+                    help='build yolo')
     parser.add_argument('-v', '--version', default='yolo_free_large', type=str,
                         help='build yolo')
     parser.add_argument('--weight', default=None,
@@ -73,12 +75,12 @@ def main():
     device = torch.device('cpu')
 
     # config
-    cfg = build_config(args)
+    model_cfg = build_model_config(args)
 
     # build model
     model = build_model(
         args=args, 
-        cfg=cfg,
+        model_cfg=model_cfg,
         device=device, 
         num_classes=args.num_classes,
         trainable=False
@@ -99,7 +101,7 @@ def main():
     os.makedirs(save_path, exist_ok=True)
     output_name = os.path.join(save_path, args.output_name)
 
-    torch.onnx._export(
+    torch.onnx.export(
         model,
         dummy_input,
         output_name,
